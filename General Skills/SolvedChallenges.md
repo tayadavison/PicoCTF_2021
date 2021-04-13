@@ -3,13 +3,13 @@
 *Solved: 7/7, Points: 110*
 | Challenges |
 | ---- |
-| [Obedient Cat](#obedient-cat) |
-| [Python Wrangling](#Python-Wrangling) |
-| [Wave a flag](#Wave-a-flag) |
-| [Nice netcat…](#Nice-netcat…) |
-| [Static ain’t always noise](#Static-ain’t-always-noise) |
-| [Tab, Tab, Attack](#Tab,-Tab,-Attack) |
-| [Magikarp Ground Mission](#Magikarp-Ground-Mission) |
+| [Obedient Cat](#obedient-cat-5-pts) |
+| [Python Wrangling](#Python-Wrangling-10-pts) |
+| [Wave a flag](#Wave-a-flag-10-pts) |
+| [Nice netcat…](#Nice-netcat-15-pts) |
+| [Static ain’t always noise](#Static-ain’t-always-noise-20-pts) |
+| [Tab, Tab, Attack](#Tab-Tab-Attack-20-pts) |
+| [Magikarp Ground Mission](#Magikarp-Ground-Mission-30-pts) |
 
 ## Obedient Cat (5 pts) 
 (*Taya*)
