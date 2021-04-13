@@ -7,7 +7,7 @@
 | [Python Wrangling](#Python-Wrangling-10-pts) |
 | [Wave a flag](#Wave-a-flag-10-pts) |
 | [Nice netcat…](#Nice-netcat-15-pts) |
-| [Static ain’t always noise](#Static-ain’t-always-noise-20-pts) |
+| [Static ain’t always noise](#Static-aint-always-noise-20-pts) |
 | [Tab, Tab, Attack](#Tab-Tab-Attack-20-pts) |
 | [Magikarp Ground Mission](#Magikarp-Ground-Mission-30-pts) |
 
