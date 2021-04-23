@@ -12,11 +12,13 @@
 | [Magikarp Ground Mission](#Magikarp-Ground-Mission-30-pts) | 30 pts |
 
 ## Obedient Cat (5 pts) 
-(*Taya*)
 
     This file has a flag in plain sight (aka "in-the-clear"). Download flag
 Problem gives “flag” file. Download it and it has the flag:
 `picoCTF{s4n1ty_v3r1f13d_f28ac910}` 
+
+*_Taya*
+
 
 
 ## Python Wrangling (10 pts) 
