@@ -87,26 +87,75 @@ The output is the flag:
 
 ## ARMssembly 0 (40 pts)
 
+>What integer does this program print with arguments `4134207980` and `950176538`? File: [chall.S](https://mercury.picoctf.net/static/da36e19990a2cede1dff10f9f33fe4b4/chall.S)  
+Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
+Hint: Simple compare
+
+*_Taya*
+
 ## Speeds and feeds (50 pts)
+
+>There is something on my shop network running at `nc mercury.picoctf.net 16524`, but I can't tell what it is. Can you?  
+Hint: What language does a CNC machine use?
+
+Connecting to the network in the webshell gives a really long, funky-looking output.
+
+    G1X11.1724Y0.2759
+    G1X12.0000Y0.0000
+    G1X12.5517Y0.0000
+    G1X13.3793Y0.2759
+    G1X13.9310Y0.8276
+    G0Z0.1
+    G0X12.0000Y3.8621
+    G1Z0.1
+
+... And on and on. 
+
+Looking at the hint, with some extra research, *“G-code is the programming language used to control CNC machinery”* (more info [here](https://www.steckermachine.com/blog/g-code-m-code#:~:text=G%2Dcode%20is%20the%20programming,the%20machine%20what%20to%20do.)). So we copy and paste the output of in the webshell into a [G-Code compiler](https://nraynaud.github.io/webgcode/):
+
+![speeds and feeds](./pictures/speeds-and-feeds.png "the G-Code output")
+
+(because the output was so long, the top part of the G-Code gets cut off in the webshell, but we know that the format is picoCTF{...})
+
+The flag: `picoCTF{num3r1cal_c0ntr0l_1395ffad}`  
+
+*_Tiare*
 
 ## Shop (50 pts)
 
+>Best Stuff - Cheap Stuff, Buy Buy Buy... Store Instance: [source](https://mercury.picoctf.net/static/bd84b0d8b57e043a028c36381910d0b7/source). The shop is open for business at `nc mercury.picoctf.net 11371.`  
+Hint: Always check edge cases when programming.  
+
+*_Taya*
+
 ## ARMssembly 1 (70 pts)
 
+>For what argument does this program print `win` with variables `68`, `2` and `3`? File: [chall_1.S](https://mercury.picoctf.net/static/d6c56d724795c006b319c6aa6a09140e/chall_1.S)  
+Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
+Hint: Shifts
 
 *_Taya*
 
 ## ARMssembly 2 (90 pts)
 
+>What integer does this program print with argument `2403814618`? File: [chall_2.S](https://mercury.picoctf.net/static/56bca09e5374884d0faa8c53aad9c642/chall_2.S)  
+Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
+Hint: Loops
 
 *_Taya*
 
 ## ARMssembly 3 (130 pts)
 
+>What integer does this program print with argument `3634247936`? File: [chall_3.S](https://mercury.picoctf.net/static/f3ce1850e41ec20724ef2bf0234f1de6/chall_3.S)  
+Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
+Hint: beep boop beep boop...  
 
 *_Taya*
 
 ## ARMssembly 4 (170 pts)
 
+>What integer does this program print with argument `1215610622`? File: [chall_4.S](https://mercury.picoctf.net/static/cc482f9af012669801cf7adeb687698a/chall_4.S)  
+Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
+Hint: Switching things up
 
 *_Taya*
