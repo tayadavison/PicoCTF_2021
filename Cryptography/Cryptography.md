@@ -58,7 +58,7 @@ The flag: `picoCTF{7188864c}`
 
 >Not all ancient ciphers were so bad... The flag is not in standard format. `nc mercury.picoctf.net 19354` [playfair.py](https://mercury.picoctf.net/static/9ea1604c8767cd6545948ad54670c2bf/playfair.py)  
 
-*_Taya
+*_Taya*
 
 ## New Vignere (300 pts)
 
