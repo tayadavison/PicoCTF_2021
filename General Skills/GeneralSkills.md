@@ -12,8 +12,8 @@
 | [Magikarp Ground Mission](#Magikarp-Ground-Mission-30-pts) | 30 pts |
 
 ## Obedient Cat (5 pts) 
+>This file has a flag in plain sight (aka "in-the-clear"). [Download flag](https://mercury.picoctf.net/static/2d24d50b4ebed90c704575627f1f57b2/flag)
 
-    This file has a flag in plain sight (aka "in-the-clear"). Download flag
 Problem gives “flag” file. Download it and it has the flag:
 `picoCTF{s4n1ty_v3r1f13d_f28ac910}` 
 
