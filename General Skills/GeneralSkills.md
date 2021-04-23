@@ -1,15 +1,15 @@
 # General Skills
 
 *Solved: 7/7, Points: 110*
-| Challenges |
-| ---- |
-| [Obedient Cat](#obedient-cat-5-pts) |
-| [Python Wrangling](#Python-Wrangling-10-pts) |
-| [Wave a flag](#Wave-a-flag-10-pts) |
-| [Nice netcat…](#Nice-netcat-15-pts) |
-| [Static ain’t always noise](#Static-aint-always-noise-20-pts) |
-| [Tab, Tab, Attack](#Tab-Tab-Attack-20-pts) |
-| [Magikarp Ground Mission](#Magikarp-Ground-Mission-30-pts) |
+| Challenges | Points |
+| ---- | ---- |
+| [Obedient Cat](#obedient-cat-5-pts) | 5 pts |
+| [Python Wrangling](#Python-Wrangling-10-pts) | 10 pts |
+| [Wave a flag](#Wave-a-flag-10-pts) | 10 pts |
+| [Nice netcat…](#Nice-netcat-15-pts) | 15 pts |
+| [Static ain’t always noise](#Static-aint-always-noise-20-pts) | 20 pts |
+| [Tab, Tab, Attack](#Tab-Tab-Attack-20-pts) | 20 pts |
+| [Magikarp Ground Mission](#Magikarp-Ground-Mission-30-pts) | 30 pts |
 
 ## Obedient Cat (5 pts) 
 (*Taya*)
