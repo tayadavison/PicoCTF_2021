@@ -46,9 +46,13 @@ Hint: Run this program by entering the following in the Terminal prompt: $ ./war
 Hint: -h and --help are the most common arguments to give to programs to get more information from them!  
 
 The hints basically tell you what to do.
+
 In the webshell, run: `$ wget https://mercury.picoctf.net/static/b28b6021d6040b086c2226ebeb913bc2/warm` (the link can also be copied from “This program” link from the problem description)
+
 Then to make file executable: `$ chmod +x warm`
+
 `$ ./warm` outputs the following text: `Hello user! Pass me a -h to learn what I can do!`
+
 Then, as expected `$ ./warm -h` gives the flag:
     
     Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_d6969390}
@@ -69,6 +73,7 @@ Using a [ASCII converter](https://www.browserling.com/tools/ascii-to-text), or c
 >Can you look at the data in this binary: [static](https://mercury.picoctf.net/static/ec4dbd8898ade34e1d60d5b70c1b8c8c/static)? This [BASH script](https://mercury.picoctf.net/static/ec4dbd8898ade34e1d60d5b70c1b8c8c/ltdis.sh) might help!
 
 Probably a better way to do this but I just downloaded the “static” file opened it in notepad and the flag was there: 
+
 `picoCTF{d15a5m_t34s3r_98d35619}`
 
 *_Taya*
@@ -78,7 +83,10 @@ Probably a better way to do this but I just downloaded the “static” file ope
 
 >Using tabcomplete in the Terminal will add years to your life, esp. when dealing with long rambling directory structures and filenames: [Addadshashanammu.zip](https://mercury.picoctf.net/static/e38f6a5b69b45d21e33cf7281d8c2531/Addadshashanammu.zip)
 
-Probably a better way to do this using the terminal but I just downloaded the `Addadshashanammu.zip` folder and then clicked through each folder until I got to the file `fang-of-haynekhtnamet` at the end. Opened in notepad and searched for picoCTF to find the flag: 
+Probably a better way to do this using the terminal but I just downloaded the `Addadshashanammu.zip` folder and then clicked through each folder until I got to the file `fang-of-haynekhtnamet` at the end. 
+
+Opened in notepad and searched for picoCTF to find the flag: 
+
 `picoCTF{l3v3l_up!_t4k3_4_r35t!_f3553887}`
 
 *_Taya*
