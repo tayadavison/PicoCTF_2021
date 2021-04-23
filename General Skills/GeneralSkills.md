@@ -14,7 +14,8 @@
 ## Obedient Cat (5 pts) 
 >This file has a flag in plain sight (aka "in-the-clear"). [Download flag](https://mercury.picoctf.net/static/2d24d50b4ebed90c704575627f1f57b2/flag)
 
-Problem gives “flag” file. Download it and it has the flag:
+Problem gives “flag” file. Download it and it has the flag:  
+
 `picoCTF{s4n1ty_v3r1f13d_f28ac910}` 
 
 *_Taya*
@@ -34,7 +35,9 @@ Running `$ python ende.py -h` results in this output:
     Examples:
         To decrypt a file named 'pole.txt', do: '$ python ende.py -d pole.txt'
 To get flag, save the encrypted flag file from problem as “pole.txt” in directory, then run `$ python ende.py -d pole.txt` 
-The program then asks for the password; once the text from the “password.txt” file is imputed, the flag is outputted: `picoCTF{4p0110_1n_7h3_h0us3_6008014f} `
+The program then asks for the password; once the text from the “password.txt” file is imputed, the flag is outputted:  
+
+`picoCTF{4p0110_1n_7h3_h0us3_6008014f} `
 
 *_Tiare*
 
@@ -53,9 +56,9 @@ Then to make file executable: `$ chmod +x warm`
 
 `$ ./warm` outputs the following text: `Hello user! Pass me a -h to learn what I can do!`
 
-Then, as expected `$ ./warm -h` gives the flag:
-    
-    Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_d6969390}
+Then, as expected `$ ./warm -h` gives the flag:  
+
+`Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_d6969390}`
 
 *_Tiare*
 
