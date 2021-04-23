@@ -21,7 +21,8 @@ Problem gives “flag” file. Download it and it has the flag:
 
 ## Python Wrangling (10 pts) 
 
-    Python scripts are invoked kind of like programs in the Terminal... Can you run this Python script using this password to get the flag? Hint: Get the Python script accessible in your shell by entering the following command in the Terminal prompt: $ wget https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/ende.py
+>Python scripts are invoked kind of like programs in the Terminal... Can you run [this Python script](https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/ende.py) using [this password](https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/pw.txt) to get [the flag](https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/flag.txt.en)? Hint: Get the Python script accessible in your shell by entering the following command in the Terminal prompt: `$ wget https://mercury.picoctf.net/static/0bf545252b5120845e3b568b9ad0277e/ende.py`    
+
 Problem gives: encrypted flag txt file, “password” txt file and python script
 
 Running the command prompt that is given in the hint uploads python script to directory saved as `ende.py` file
@@ -38,12 +39,11 @@ The program then asks for the password; once the text from the “password.txt�
 
 ## Wave a flag (10 pts)
 
-    Can you invoke help flags for a tool or binary? This program has extraordinarily helpful information…
+>Can you invoke help flags for a tool or binary? [This program](https://mercury.picoctf.net/static/b28b6021d6040b086c2226ebeb913bc2/warm) has extraordinarily helpful information…
+Hint: To get the file accessible in your shell, enter the following in the Terminal prompt: `$ wget https://mercury.picoctf.net/static/b28b6021d6040b086c2226ebeb913bc2/warm`
+Hint: Run this program by entering the following in the Terminal prompt: $ ./warm, but you'll first have to make it executable with $ chmod +x warm
+Hint: -h and --help are the most common arguments to give to programs to get more information from them!
 
-
-    Hint: To get the file accessible in your shell, enter the following in the Terminal prompt: $ wget https://mercury.picoctf.net/static/b28b6021d6040b086c2226ebeb913bc2/warm
-    Hint: Run this program by entering the following in the Terminal prompt: $ ./warm, but you'll first have to make it executable with $ chmod +x warm
-    Hint: -h and --help are the most common arguments to give to programs to get more information from them!
 The hints basically tell you what to do.
 In the webshell, run: `$ wget https://mercury.picoctf.net/static/b28b6021d6040b086c2226ebeb913bc2/warm` (the link can also be copied from “This program” link from the problem description)
 Then to make file executable: `$ chmod +x warm`
@@ -56,7 +56,7 @@ Then, as expected `$ ./warm -h` gives the flag:
 
 ## Nice netcat… (15 pts)
 
-    There is a nice program that you can talk to by using this command in a shell: $ nc mercury.picoctf.net 22342, but it doesn't speak English…
+>There is a nice program that you can talk to by using this command in a shell: `$ nc mercury.picoctf.net 22342, but it doesn't speak English…`  
 
 In the webshell, run `$ nc mercury.picoctf.net 22342` which outputs numbers separated by newlines `(112 105 99 111 67 84 70 123 103 48 48 100 95 107 49 116 116 121 33 95 110 49 99 51 95 107 49 116 116 121 33 95 53 102 98 53 101 53 49 100 125 10)`
 Using a [ASCII converter](https://www.browserling.com/tools/ascii-to-text), or coding one yourself like a boss 😎, the numbers turn into characters of the flag: `picoCTF{g00d_k1tty!_n1c3_k1tty!_5fb5e51d}`
@@ -65,7 +65,7 @@ Using a [ASCII converter](https://www.browserling.com/tools/ascii-to-text), or c
 
 ## Static ain’t always noise (20 pts)
     
-    Can you look at the data in this binary: static? This BASH script might help!
+>Can you look at the data in this binary: [static](https://mercury.picoctf.net/static/ec4dbd8898ade34e1d60d5b70c1b8c8c/static)? This [BASH script](https://mercury.picoctf.net/static/ec4dbd8898ade34e1d60d5b70c1b8c8c/ltdis.sh) might help!
 
 Probably a better way to do this but I just downloaded the “static” file opened it in notepad and the flag was there: 
 `picoCTF{d15a5m_t34s3r_98d35619}`
@@ -75,7 +75,7 @@ Probably a better way to do this but I just downloaded the “static” file ope
 
 ## Tab, Tab, Attack (20 pts)
 
-    Using tabcomplete in the Terminal will add years to your life, esp. when dealing with long rambling directory structures and filenames: Addadshashanammu.zip
+>Using tabcomplete in the Terminal will add years to your life, esp. when dealing with long rambling directory structures and filenames: [Addadshashanammu.zip](https://mercury.picoctf.net/static/e38f6a5b69b45d21e33cf7281d8c2531/Addadshashanammu.zip)
 
 Probably a better way to do this using the terminal but I just downloaded the `Addadshashanammu.zip` folder and then clicked through each folder until I got to the file `fang-of-haynekhtnamet` at the end. Opened in notepad and searched for picoCTF to find the flag: 
 `picoCTF{l3v3l_up!_t4k3_4_r35t!_f3553887}`
@@ -84,7 +84,8 @@ Probably a better way to do this using the terminal but I just downloaded the `A
 
 ## Magikarp Ground Mission (30 pts)
 
-    Do you know how to move between directories and read files in the shell? Start the container, `ssh` to it, and then `ls` once connected to begin. Login via `ssh` as `ctf-player` with the password, `481e7b14`
+>Do you know how to move between directories and read files in the shell? Start the container, `ssh` to it, and then `ls` once connected to begin. Login via `ssh` as `ctf-player` with the password, `481e7b14`  
+
 Launch challenge instance and follow the instructions `ssh ctf-player@venus.picoctf.net -p 49615` and password: `481e7b14` then run `$ ls` and see 2 files: `1of3.flag.txt`  `instructions-to-2of3.txt`.
 
 1. Run `$ cat 1of3.flag.txt` and the output is: `picoCTF{xxsh_` Part 1 of the flag!
