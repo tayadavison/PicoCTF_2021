@@ -49,7 +49,8 @@ In the webshell, run: `$ wget https://mercury.picoctf.net/static/b28b6021d6040b0
 Then to make file executable: `$ chmod +x warm`
 `$ ./warm` outputs the following text: `Hello user! Pass me a -h to learn what I can do!`
 Then, as expected `$ ./warm -h` gives the flag:
-`Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_d6969390}`
+    
+    Oh, help? I actually don't do much, but I do have this flag here: picoCTF{b1scu1ts_4nd_gr4vy_d6969390}
 
 *_Tiare*
 
