@@ -8,7 +8,7 @@
 | [New Caesar](#new-caesar-60-pts) | 60 pts |
 | [Pixelated](#pixelated-100-pts) | 100 pts |
 | [Play Nice](#play-nice-110-pts) | 110 pts |
-| [New Vignere](#new-vignere-300-points) | 300 pts |
+| [New Vignere](#new-vignere-300-pts) | 300 pts |
 
 
 ## Mod 26 (10 pts)
