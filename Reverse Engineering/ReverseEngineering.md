@@ -20,6 +20,12 @@
 `''.join([chr((ord(flag[i]) << 8) + ord(flag[i + 1])) for i in range(0, len(flag), 2)])`  
 Hint: You may find some decoders online.  
 
+In this problem they give you the encoded flag in the file `enc` and the encoding method. The encoded flag is essentially taking 2 8 bit characters from the flag and putting the together to get 16 bit characcters. I used [this website](https://r12a.github.io/app-conversion/) which takes unicode characters and outputs a bunch of different formats. The `UTF-16 code units` output gives this:
+    
+    7069 636F 4354 467B 3136 5F62 6974 735F 696E 7374 3334 645F 6F66 5F38 5F65 3134 3161 3066 377D
+
+I put that into a [hex to ascii converter](https://www.rapidtables.com/convert/number/hex-to-ascii.html) and got the flag: `picoCTF{16_bits_inst34d_of_8_e141a0f7}`
+
 *_Taya*
 
 ## Keygenme-py (30 pts)
@@ -91,6 +97,9 @@ The output is the flag:
 Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
 Hint: Simple compare
 
+The given assembly code just compares the 2 inputs and outputs the larger one. Since the larger input is `4134207980` I just converted that to hex and that was the flag: 
+`picoCTF{f66b01ec}`
+
 *_Taya*
 
 ## Speeds and feeds (50 pts)
@@ -126,6 +135,25 @@ The flag: `picoCTF{num3r1cal_c0ntr0l_1395ffad}`
 >Best Stuff - Cheap Stuff, Buy Buy Buy... Store Instance: [source](https://mercury.picoctf.net/static/bd84b0d8b57e043a028c36381910d0b7/source). The shop is open for business at `nc mercury.picoctf.net 11371.`  
 Hint: Always check edge cases when programming.  
 
+Connect to `nc mercury.picoctf.net 11371` in the webshell and it brings up a menu:
+    
+    Welcome to the market!
+    =====================
+    You have 40 coins
+            Item            Price   Count
+    (0) Quiet Quiches       10      12
+    (1) Average Apple       15      8
+    (2) Fruitful Flag       100     1
+    (3) Sell an Item
+    (4) Exit
+    Choose an option: 
+
+After some trial and error I realised that the shop allowed you to purchase negative items. All that is necessary is to enter `1` to purchase Average Apple and then `-4`. This will get you to the necessary 100 coins and then you can purchase the Fruitful Flag. This gives you the following output: 
+
+    Flag is:  [112 105 99 111 67 84 70 123 98 52 100 95 98 114 111 103 114 97 109 109 101 114 95 98 56 100 55 50 55 49 102 125]
+
+Then you can use any decimal to ascii converter such as [this one](https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html) to get the flag: `picoCTF{b4d_brogrammer_b8d7271f}` 
+
 *_Taya*
 
 ## ARMssembly 1 (70 pts)
@@ -133,6 +161,53 @@ Hint: Always check edge cases when programming.
 >For what argument does this program print `win` with variables `68`, `2` and `3`? File: [chall_1.S](https://mercury.picoctf.net/static/d6c56d724795c006b319c6aa6a09140e/chall_1.S)  
 Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
 Hint: Shifts
+
+The assembly code give has the following important lines in the main function:
+
+    bl	    func
+	cmp	    w0, 0
+	bne	    .L4
+	adrp	x0, .LC0
+
+.LC0 has the string "You win!" So we know that we want `adrp x0, .LC0` to execute. That means that we need the value returned from func in w0 needs to be 0.
+
+func looks like this:
+
+    sub	    sp, sp, #32
+	str	    w0, [sp, 12]
+	mov	    w0, 68
+	str	    w0, [sp, 16]
+	mov	    w0, 2
+	str	    w0, [sp, 20]
+	mov	    w0, 3
+	str	    w0, [sp, 24]
+	ldr	    w0, [sp, 20]
+	ldr	    w1, [sp, 16]
+	lsl	    w0, w1, w0
+	str	    w0, [sp, 28]
+	ldr	    w1, [sp, 28]
+	ldr	    w0, [sp, 24]
+	sdiv	w0, w1, w0
+	str	    w0, [sp, 28]
+	ldr	    w1, [sp, 28]
+	ldr	    w0, [sp, 12]
+	sub	    w0, w1, w0
+	str	    w0, [sp, 28]
+	ldr	    w0, [sp, 28]
+	add	    sp, sp, 32
+	ret
+
+Working backwards we know that the value returned in w0 is set in the line `sub	w0, w1, w0`. So we need w1 and w0 to be equal at that point. w0 holds the value stored in memory at an offset of 12 from the stack pointer (`ldr w0, [sp, 12]`). Working back this is set in the second line of func(`str w0, [sp, 12]`) to be the input of the function. To find w1 we just need to work through the steps in the func:
+
+    w0 = 2
+    w1 = 68
+    w0 = w1 << w0
+    w1 = w0
+    w0 = 3
+    w0 = w1/w0
+    w1 = w0
+
+so w1 = 90. Convert to hex and the flag is: `picoCTF{0000005a}`
 
 *_Taya*
 
