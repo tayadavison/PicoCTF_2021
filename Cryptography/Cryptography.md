@@ -15,6 +15,8 @@
 
 >Cryptography can be easy, do you know what ROT13 is? `cvpbPGS{arkg_gvzr_V'yy_gel_2_ebhaqf_bs_ebg13_nSkgmDJE}`  
 
+Pretty simple question just use a [ROT13 decoder](https://rot13.com/) and get the flag: `picoCTF{next_time_I'll_try_2_rounds_of_rot13_aFxtzQWR}`
+
 *_Taya*
 
 ## Easy Peasy (40 pts)
@@ -57,6 +59,10 @@ The flag: `picoCTF{7188864c}`
 ## Play Nice (110 pts)
 
 >Not all ancient ciphers were so bad... The flag is not in standard format. `nc mercury.picoctf.net 19354` [playfair.py](https://mercury.picoctf.net/static/9ea1604c8767cd6545948ad54670c2bf/playfair.py)  
+
+So when I solved this in the competition I looked at the playfair.py file and actually wrote a python script to decrypt the plaintext they give when connecting to `nc mercury.picoctf.net 19354`. 
+
+Afterwards I realized at the bottom of playfair.py there is a link to a [wikepedia page](https://en.wikipedia.org/wiki/Playfair_cipher). Apparently it is a well known cipher. You can use this [playfair cipher decrypter](https://www.dcode.fr/playfair-cipher) or any other one you find online. Input that alphabet they give you in a 6x6 grid. Then just decrypt the message they give you and submit it to get the flag: `dbc8bf9bae7152d35d3c200c46a0fa30`
 
 *_Taya*
 
