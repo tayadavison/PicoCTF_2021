@@ -93,7 +93,11 @@ Using a ROT decoder ([ROT13](https://rot13.com/)) we get the flag:
 Hint 1: Have you ever used `file` to determine what a file was?  
 Hint 2: Relevant terminal-fu in picoGym: [https://play.picoctf.org/practice/challenge/85](https://play.picoctf.org/practice/challenge/85)  
 Hint 3: Mastering this terminal-fu would enable you to find the flag in a single command: [https://play.picoctf.org/practice/challenge/48](https://play.picoctf.org/practice/challenge/48)  
-hint 4: Using your own computer, you could use qemu to boot from this disk!  
+hint 4: Using your own computer, you could use qemu to boot from this disk!
+
+Use `wget https://mercury.picoctf.net/static/2f998eee12730cf5766624681212a441/dds1-alpine.flag.img.gz` in the webshell to get the file. its a gz file so we can use zgrep to search for matching text. Run `zgrep -a "picoCTF" dds1-alpine.flag.img.gz` to search for strings with "picoCTF".
+
+The flag is: `picoCTF{f0r3ns1c4t0r_n30phyt3_267e38f6}`
 
 *_Taya*
 
