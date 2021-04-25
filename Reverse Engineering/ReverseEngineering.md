@@ -20,7 +20,7 @@
 `''.join([chr((ord(flag[i]) << 8) + ord(flag[i + 1])) for i in range(0, len(flag), 2)])`  
 Hint: You may find some decoders online.  
 
-In this problem they give you the encoded flag in the file `enc` and the encoding method. The encoded flag is essentially taking 2 8 bit characters from the flag and putting the together to get 16 bit characcters. I used [this website](https://r12a.github.io/app-conversion/) which takes unicode characters and outputs a bunch of different formats. The `UTF-16 code units` output gives this:
+In this problem they give you the encoded flag in the file `enc` and the encoding method. The encoded flag is essentially taking 2 8 bit characters from the flag and putting them together to get 16 bit characcters. I used [this website](https://r12a.github.io/app-conversion/) which takes unicode characters and outputs a bunch of different formats. The `UTF-16 code units` output gives this:
     
     7069 636F 4354 467B 3136 5F62 6974 735F 696E 7374 3334 645F 6F66 5F38 5F65 3134 3161 3066 377D
 
@@ -217,6 +217,44 @@ so w1 = 90. Convert to hex and the flag is: `picoCTF{0000005a}`
 Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
 Hint: Loops
 
+Looking at the assembly file we need to find what is returned from func1 in w0. This is the code in func1:
+
+    func1:
+        sub	    sp, sp, #32
+        str	    w0, [sp, 12]
+        str	    wzr, [sp, 24]
+        str	    wzr, [sp, 28]
+        b	    .L2
+    .L3:
+        ldr	    w0, [sp, 24]
+        add	    w0, w0, 3
+        str	    w0, [sp, 24]
+        ldr	    w0, [sp, 28]
+        add 	w0, w0, 1
+        str	    w0, [sp, 28]
+    .L2:
+        ldr	    w1, [sp, 28]
+        ldr	    w0, [sp, 12]
+        cmp	    w1, w0
+        bcc	    .L3
+        ldr	    w0, [sp, 24]
+        add	    sp, sp, 32
+        ret
+
+
+When `bcc .L3` does not branch to .L3 the value stored at an offset of 24 from the stack pointer (sp) is returned. `bcc` means branch if carry clear. The carry bit is set in the line `cmp w1, w0` and it is only set if w1 is less than w0. Summary of the assembly code:
+
+    input = 2403814618
+    sp_offset24 = 0
+    sp_offset28 = 0
+    while (sp_offset28 <= input) {
+        sp_offset24 +=3
+        sp_offset28 +=1
+    }
+    return sp_offset24
+
+so to find the value returned we just need to do 2403814618*3=7211443854 - in hex: 1add5e68e. Since the answer only accepts 32 bits, the flag is: `picoCTF{add5e68e}`
+
 *_Taya*
 
 ## ARMssembly 3 (130 pts)
@@ -225,6 +263,63 @@ Hint: Loops
 Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
 Hint: beep boop beep boop...  
 
+Again we need to determine what is returned from func1:
+
+    func1:
+        stp	x29, x30, [sp, -48]!
+        add	x29, sp, 0
+        str	w0, [x29, 28]
+        str	wzr, [x29, 44]
+        b	.L2
+    .L4:
+        ldr	w0, [x29, 28]
+        and	w0, w0, 1
+        cmp	w0, 0
+        beq	.L3
+        ldr	w0, [x29, 44]
+        bl	func2
+        str	w0, [x29, 44]
+    .L3:
+        ldr	w0, [x29, 28]
+        lsr	w0, w0, 1
+        str	w0, [x29, 28]
+    .L2:
+        ldr	w0, [x29, 28]
+        cmp	w0, 0
+        bne	.L4
+        ldr	w0, [x29, 44]
+        ldp	x29, x30, [sp], 48
+        ret
+        .size	func1, .-func1
+        .align	2
+        .global	func2
+        .type	func2, %function
+    func2:
+        sub	sp, sp, #16
+        str	w0, [sp, 12]
+        ldr	w0, [sp, 12]
+        add	w0, w0, 3
+        add	sp, sp, 16
+        ret
+
+The return for func1 is in .L2 and it returns when w0, loaded from offset 28 to the stack pointer (sp) is 0. Translating into more understandable code:
+
+    func2(sp_offset44){
+        return sp_offset44+3
+    }    
+    
+    input = 3634247936
+    sp_offset44 = 0
+    while(input != 0){
+        if((input & 1 != 0)){ //bitwise and
+            sp_offset44 = func2(sp_offset44)
+        }
+        input = input >> 1
+    }
+    return sp_offset44
+
+Everytime input & 1 is not 0, 3 is added to sp_offset44 then input is shifted to the right by 1 bit. input & 1 is only non-zero if input has a `1` in the smallest bit posititon. Converting 3634247936 to binary: `11011000100111100011100100000000`. It has 13 ones so we know the return value is 3*13 = 39. Convert to hex and the flag is: `picoCTF{00000027}`
+
 *_Taya*
 
 ## ARMssembly 4 (170 pts)
@@ -232,5 +327,72 @@ Hint: beep boop beep boop...
 >What integer does this program print with argument `1215610622`? File: [chall_4.S](https://mercury.picoctf.net/static/cc482f9af012669801cf7adeb687698a/chall_4.S)  
 Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})  
 Hint: Switching things up
+
+This assembly problem has significantly more code than the others, but it is just a series of different comparisons that branch down different paths.
+
+First:
+    func1:
+        stp	x29, x30, [sp, -32]!
+        add	x29, sp, 0
+        str	w0, [x29, 28]
+        ldr	w0, [x29, 28]
+        cmp	w0, 100
+        bls	.L2
+        ldr	w0, [x29, 28]
+        add	w0, w0, 100
+        bl	func2
+        b	.L3
+    .L2:
+        ldr	w0, [x29, 28]
+        bl	func3
+    .L3:
+        ldp	x29, x30, [sp], 32
+        ret
+
+This compares the input with 100. If it is less than it jumps to func3, otherwise it adds 100 and jumps to func2.  1215610622 is not less than 100 the input is now 1215610722 and it jumps to func2.
+
+    func2:
+        stp	x29, x30, [sp, -32]!
+        add	x29, sp, 0
+        str	w0, [x29, 28]
+        ldr	w0, [x29, 28]
+        cmp	w0, 499
+        bhi	.L5
+        ldr	w0, [x29, 28]
+        sub	w0, w0, #86
+        bl	func4
+        b	.L6
+    .L5:
+        ldr	w0, [x29, 28]
+        add	w0, w0, 13
+        bl	func5
+    .L6:
+        ldp	x29, x30, [sp], 32
+        ret
+
+This compares input with 499. If input is greater than 499 with unsigned comparison (which it is) then it goes to .L5 where it adds 13 and then jumps to func5. Now the input is 1215610735 and func5 is executing.
+
+    func5:
+        stp	x29, x30, [sp, -32]!
+        add	x29, sp, 0
+        str	w0, [x29, 28]
+        ldr	w0, [x29, 28]
+        bl	func8
+        str	w0, [x29, 28]
+        ldr	w0, [x29, 28]
+        ldp	x29, x30, [sp], 32
+        ret
+
+func5 just jumps to func8
+
+    func8:
+        sub	sp, sp, #16
+        str	w0, [sp, 12]
+        ldr	w0, [sp, 12]
+        add	w0, w0, 2
+        add	sp, sp, 16
+        ret
+
+func8 adds 2 to the input and then returns. The returned value is 1215610735+2 = 1215610737. Convert to hex and the flag is: `picoCTF{4874bf71}`
 
 *_Taya*
