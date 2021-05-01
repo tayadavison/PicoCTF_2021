@@ -1,10 +1,9 @@
 # Cryptography
 
-*Solved: 6, Points: 620*
+*Solved: 6, Points: 580*
 | Challenges | Points |
 | ---- | ---- |
 | [Mod 26](#mod-26-10-pts) | 10 pts |
-| [Easy Peasy](#easy-peasy-40-pts) | 40 pts |
 | [New Caesar](#new-caesar-60-pts) | 60 pts |
 | [Pixelated](#pixelated-100-pts) | 100 pts |
 | [Play Nice](#play-nice-110-pts) | 110 pts |
@@ -149,5 +148,122 @@ Afterwards I realized at the bottom of playfair.py there is a link to a [wikeped
 >Another slight twist on a classic, see if you can recover the flag. (Wrap with picoCTF{})  
 `ilnipdjheipnenhhedionepegiejmleoehejfcnimdgehimnepedhhfbafmcgdek` [new_vignere.py](https://mercury.picoctf.net/static/d86ead586609c44b84b04e08966a4d35/new_vignere.py)  
 Hint: [https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher#Cryptanalysis](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher#Cryptanalysis)  
+
+This problem is very similar to [New Caesar](#new-caesar-60-pts) with a bit of added complexity. The given file `new_vignere.py` has the encryption method used and it has the same b16_encode and shift method. THe difference this time is the information we have about the flag and the key.
+
+    flag = "redacted"
+    assert all([c in "abcdef0123456789" for c in flag])
+
+    key = "redacted"
+    assert all([k in ALPHABET for k in key]) and len(key) < 15
+
+We have the following information:
+- ALPHABET is still all lowercase letters a-p
+- The flag is some combination of the following letters and numbers "abcdef0123456789"
+- The key is some combination of letters in ALPHABET
+- the length of the key is anywhere from 1-14
+
+The first thing I did was pass "abcdef0123456789" to b16_encode to seee the possible values from the shift. Also, since b16_encode returns 2 characters for every input character, I spaced it out accordingly:
+
+    b16FlagAlphabet = b16_encode("abcdef0123456789")
+    print("encoded:", end=' ')
+    for i in range(0, len(b16FlagAlphabet),2):
+        print(b16FlagAlphabet[i]+b16FlagAlphabet[i+1], end=' ')
+    
+    output:
+    encoded: gb gc gd ge gf gg da db dc dd de df dg dh di dj
+
+This gives us very valuable information for when we unshift the encrypted message, every other letter must be 'g' or 'd'. 
+
+Use the same unshift method from [New Caesar](#new-caesar-60-pts).  I wrote a script to unshift every other letter in the encoded message with the possible letter options for the key. If the unshifted letter is a g or a d then I print the possible letter for key in that position.
+
+    encoded = "ilnipdjheipnenhhedionepegiejmleoehejfcnimdgehimnepedhhfbafmcgdek"
+
+    for i in range (0, len(encoded), 2):
+        for letter in ALPHABET:
+            dec = ""
+            dec = unshift(encoded[i], letter)
+            if dec == "g":
+                print("letter: "+letter, end=' ')
+            if dec == "d":
+                print("letter: "+letter, end=' ')
+        print("    i: "+ str(i) + " encoded letter: "+ encoded[i])
+
+The output:
+
+    letter: c letter: f     i: 0 encoded letter: i
+    letter: h letter: k     i: 2 encoded letter: n
+    letter: j letter: m     i: 4 encoded letter: p
+    letter: d letter: g     i: 6 encoded letter: j
+    letter: b letter: o     i: 8 encoded letter: e
+    letter: j letter: m     i: 10 encoded letter: p
+    letter: b letter: o     i: 12 encoded letter: e
+    letter: b letter: e     i: 14 encoded letter: h
+    letter: b letter: o     i: 16 encoded letter: e
+    letter: c letter: f     i: 18 encoded letter: i
+    letter: h letter: k     i: 20 encoded letter: n
+    letter: j letter: m     i: 22 encoded letter: p
+    letter: a letter: d     i: 24 encoded letter: g
+    letter: b letter: o     i: 26 encoded letter: e
+    letter: g letter: j     i: 28 encoded letter: m
+    letter: b letter: o     i: 30 encoded letter: e
+    letter: b letter: o     i: 32 encoded letter: e
+    letter: b letter: o     i: 34 encoded letter: e
+    letter: c letter: p     i: 36 encoded letter: f
+    letter: h letter: k     i: 38 encoded letter: n
+    letter: g letter: j     i: 40 encoded letter: m
+    letter: a letter: d     i: 42 encoded letter: g
+    letter: b letter: e     i: 44 encoded letter: h
+    letter: g letter: j     i: 46 encoded letter: m
+    letter: b letter: o     i: 48 encoded letter: e
+    letter: b letter: o     i: 50 encoded letter: e
+    letter: b letter: e     i: 52 encoded letter: h
+    letter: c letter: p     i: 54 encoded letter: f
+    letter: k letter: n     i: 56 encoded letter: a
+    letter: g letter: j     i: 58 encoded letter: m
+    letter: a letter: d     i: 60 encoded letter: g
+    letter: b letter: o     i: 62 encoded letter: e
+
+Analysing the letters, we see that the letters seem to repeat every 18 letters. Since the longest value for key is 14 and we are currently only checking every other letter I assumed the length of the key is 9. We can find the letter for each index of the key by checking every 9 letters. However since we only have every other letter we need to check every 18 letters (only the even ones). For key[0] check index 0, 18, 36, and 54 and see the common letter is 'c'. For key[1] check index 10, 28, 46 and see the common letter is 'j'. For key[2] check index 2, 20, 38, 56 and see the common letter is 'k'. 
+
+Continue for the rest of the key value sand we get the key is: 'cjkojbdbb' or cjkbjbdbb. key[3] could be 'o' or 'b' since index 12, 30 and 48 all have both letters as options. We just need to try both of those options and see which one returns all valid characters. THe final script:
+
+    import string
+
+    LOWERCASE_OFFSET = ord("a")
+    ALPHABET = string.ascii_lowercase[:16]
+        
+    def b16_decode(enc):
+        plain = ""
+        for c in range(0,len(enc), 2):
+            upperhalf = (ord(enc[c])-LOWERCASE_OFFSET)<<4
+            lowerhalf = ord(enc[c+1])-LOWERCASE_OFFSET
+            plain += chr(lowerhalf+upperhalf)
+        return plain
+
+    def unshift(c, k):
+        t1 = ord(c) - LOWERCASE_OFFSET
+        t2 = ord(k) - LOWERCASE_OFFSET
+        t3 = t1-t2
+        if t3 < 0:
+            t3 += 16
+        return ALPHABET[(t3) % len(ALPHABET)]
+
+    encoded = "ilnipdjheipnenhhedionepegiejmleoehejfcnimdgehimnepedhhfbafmcgdek"
+    key1 = "cjkojbdbb"
+    key2 = "cjkbjbdbb"
+    dec1 = ""
+    dec2 = ""
+    for i, c in enumerate(encoded):
+        dec1 += unshift(c, key1[i % len(key1)]) 
+        dec2 += unshift(c, key2[i % len(key2)]) 
+    flag1 = b16_decode(dec1)
+    flag2 = b16_decode(dec2)
+    print(flag1)
+    print(flag2)
+
+The output with no invalid characters is: `b7bf6c4d2e3c7715489723f360f8d128`
+
+The flag: `picoCTF{b7bf6c4d2e3c7715489723f360f8d128}`
 
 *_Taya*
