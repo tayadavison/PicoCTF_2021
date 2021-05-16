@@ -25,7 +25,7 @@ Pretty simple question just use a [ROT13 decoder](https://rot13.com/) and get th
 Hint 1: How does the cipher work if the alphabet isn't 26 letters?  
 Hint 2: Even though the letters are split up, the same paradigms still apply 
 
-In the `new_caesar.py` file there is the encryption algorithm that was used. There are a few important things to note. 
+They give us the encryption algorithm in the `new_caesar.py` file. There are a few important things to note. 
 - On line 4 it gives the alphabet: `ALPHABET = string.ascii_lowercase[:16]` 
     - This means the alphabet used is the first 16 lowercase letters of the alphabet: 'a-p'.
 - On line 21 it checks the letters of the key are all in ALPHABET (a-p): `assert all([k in ALPHABET for k in key])`
@@ -43,7 +43,7 @@ The encryption method first passes the string to b16_encode which doubles the le
 		enc += ALPHABET[int(binary[4:], 2)]
 	return enc
 
-For example if the flag was just a the following line: `binary = "{0:08b}".format(ord('a'))` would give `01100001` and then `binary[:4] = 0110` or 6 and `binary[4:] = 0001` or 1. These are the index of the characters in ALPHABET. so enc="gb" for plain = "a" This is the code to reverse that:
+For example if the flag was just 'a' the following line: `binary = "{0:08b}".format(ord('a'))` would give `01100001` and then `binary[:4] = 0110` or the value 6 and `binary[4:] = 0001` or the value 1. These are the index of the characters in ALPHABET. so for plain = "a" we have enc="gb". This is the code to reverse that:
 
     def b16_decode(enc):
         plain = ""
@@ -170,12 +170,13 @@ The first thing I did was pass "abcdef0123456789" to b16_encode to seee the poss
     for i in range(0, len(b16FlagAlphabet),2):
         print(b16FlagAlphabet[i]+b16FlagAlphabet[i+1], end=' ')
     
-    output:
+The output:
+
     encoded: gb gc gd ge gf gg da db dc dd de df dg dh di dj
 
 This gives us very valuable information for when we unshift the encrypted message, every other letter must be 'g' or 'd'. 
 
-Use the same unshift method from [New Caesar](#new-caesar-60-pts).  I wrote a script to unshift every other letter in the encoded message with the possible letter options for the key. If the unshifted letter is a g or a d then I print the possible letter for key in that position.
+Use the same unshift method from [New Caesar](#new-caesar-60-pts).  I wrote a script to unshift every other letter in the encoded message with the possible letter options for the key. If the unshifted letter is a 'g' or a 'd' then I print the possible letter for key in that position.
 
     encoded = "ilnipdjheipnenhhedionepegiejmleoehejfcnimdgehimnepedhhfbafmcgdek"
 
@@ -224,7 +225,7 @@ The output:
     letter: a letter: d     i: 60 encoded letter: g
     letter: b letter: o     i: 62 encoded letter: e
 
-Analysing the letters, we see that the letters seem to repeat every 18 letters. Since the longest value for key is 14 and we are currently only checking every other letter I assumed the length of the key is 9. We can find the letter for each index of the key by checking every 9 letters. However since we only have every other letter we need to check every 18 letters (only the even ones). For key[0] check index 0, 18, 36, and 54 and see the common letter is 'c'. For key[1] check index 10, 28, 46 and see the common letter is 'j'. For key[2] check index 2, 20, 38, 56 and see the common letter is 'k'. 
+Analysing the letters, we see that the letters seem to repeat every 18 letters. Since the longest value for key is 14 and we are currently only checking every other letter I assumed the length of the key is 9. We can find the letter for each index of the key by checking every 9 letters. However since we only have every other letter (only the even ones) we need to check every 18 letters. For key[0] check index 0, 18, 36, and 54 and see the common letter is 'c'. For key[1] check index 10, 28, 46 and see the common letter is 'j'. For key[2] check index 2, 20, 38, 56 and see the common letter is 'k'. 
 
 Continue for the rest of the key value sand we get the key is: 'cjkojbdbb' or cjkbjbdbb. key[3] could be 'o' or 'b' since index 12, 30 and 48 all have both letters as options. We just need to try both of those options and see which one returns all valid characters. THe final script:
 

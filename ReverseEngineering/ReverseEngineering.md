@@ -7,7 +7,7 @@
 | [Keygenme-py ](#keygenme-py-30-pts) | 30 pts |
 | [Crackme-py](#creackme-py-30-pts) | 30 pts |
 | [ARMssembly 0](#armssembly-0-40-pts) | 40 pts |
-| [Speeds and feeds](#speeds-and-feeds-50-pts) | 70 pts |
+| [Speeds and feeds](#speeds-and-feeds-50-pts) | 50 pts |
 | [Shop](#shop-50-pts) | 50 pts |
 | [ARMssembly 1](#armssembly-1-70-pts) | 70 pts |
 | [ARMssembly 2](#armssembly-2-90-pts) | 90 pts |
@@ -20,7 +20,7 @@
 `''.join([chr((ord(flag[i]) << 8) + ord(flag[i + 1])) for i in range(0, len(flag), 2)])`  
 Hint: You may find some decoders online.  
 
-In this problem they give you the encoded flag in the file `enc` and the encoding method. The encoded flag is essentially taking 2 8 bit characters from the flag and putting them together to get 16 bit characcters. I used [this website](https://r12a.github.io/app-conversion/) which takes unicode characters and outputs a bunch of different formats. The `UTF-16 code units` output gives this:
+In this problem they give you the encoded flag in the file `enc` and the encoding method. The encoded flag is essentially taking 2 8-bit characters from the flag and putting them together to get 16 bit characcters. I used [this website](https://r12a.github.io/app-conversion/) which takes unicode characters and outputs a bunch of different formats. The `UTF-16 code units` output gives this:
     
     7069 636F 4354 467B 3136 5F62 6974 735F 696E 7374 3334 645F 6F66 5F38 5F65 3134 3161 3066 377D
 
@@ -187,7 +187,7 @@ func looks like this:
 	str	    w0, [sp, 28]
 	ldr	    w1, [sp, 28]
 	ldr	    w0, [sp, 24]
-	sdiv	w0, w1, w0
+	sdiv    w0, w1, w0
 	str	    w0, [sp, 28]
 	ldr	    w1, [sp, 28]
 	ldr	    w0, [sp, 12]
@@ -197,7 +197,7 @@ func looks like this:
 	add	    sp, sp, 32
 	ret
 
-Working backwards we know that the value returned in w0 is set in the line `sub	w0, w1, w0`. So we need w1 and w0 to be equal at that point. w0 holds the value stored in memory at an offset of 12 from the stack pointer (`ldr w0, [sp, 12]`). Working back this is set in the second line of func(`str w0, [sp, 12]`) to be the input of the function. To find w1 we just need to work through the steps in the func:
+Working backwards we know that the value returned in w0 is set in the line `sub	w0, w1, w0`. So we need w1 and w0 to be equal at that point. w0 holds the value stored in memory at an offset of 12 from the stack pointer (`ldr w0, [sp, 12]`). Working back this is set in the second line of func(`str w0, [sp, 12]`) to be the input of the function. To find w1 we just need to work through the steps in the func. Re-writing in a more readable format:
 
     w0 = 2
     w1 = 68
@@ -230,7 +230,7 @@ Looking at the assembly file we need to find what is returned from func1 in w0. 
         add	    w0, w0, 3
         str	    w0, [sp, 24]
         ldr	    w0, [sp, 28]
-        add 	w0, w0, 1
+        add     w0, w0, 1
         str	    w0, [sp, 28]
     .L2:
         ldr	    w1, [sp, 28]
@@ -242,7 +242,7 @@ Looking at the assembly file we need to find what is returned from func1 in w0. 
         ret
 
 
-When `bcc .L3` does not branch to .L3 the value stored at an offset of 24 from the stack pointer (sp) is returned. `bcc` means branch if carry clear. The carry bit is set in the line `cmp w1, w0` and it is only set if w1 is less than w0. Summary of the assembly code:
+Working backwards. In .L2 when `bcc .L3` does not branch to .L3 the value stored at an offset of 24 from the stack pointer (sp) is returned. `bcc` means branch if carry clear. The carry bit is set in the line `cmp w1, w0` and it is only set if w1 is less than w0. Summary of the assembly code:
 
     input = 2403814618
     sp_offset24 = 0
